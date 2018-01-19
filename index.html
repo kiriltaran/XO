@@ -83,6 +83,26 @@
 
     const items = document.getElementsByClassName('field-item');
 
+    function step() {
+      this.children[0].innerHTML = xStep ? 'X' : 'O';
+
+      const markPos = this.id.split('_');
+
+      const mark = xStep ? 'x' : 'o';
+
+      const currentPos = xStep ? xPos : oPos;
+
+      currentPos.push(markPos);
+      if (currentPos.length > 2) {
+        const win = isWinner(currentPos);
+        if (win) {
+          alert(mark.toUpperCase() + ' you are winner!');
+          location.reload();
+        }
+      }
+      xStep = !xStep;
+    }
+
     function isWinner(positions) {
 
       function isColumn() {
@@ -154,34 +174,6 @@
       items[i].addEventListener('click', step, {
         once: true
       });
-    }
-
-    function step() {
-      this.children[0].innerHTML = xStep ? 'X' : 'O';
-
-      const markPos = this.id.split('_');
-
-      if (xStep) {
-        xPos.push(markPos);
-        if (xPos.length > 2) {
-          const win = isWinner(xPos);
-          if (xPos.length > 2 && win) {
-            alert('X you are WINNER!');
-            location.reload();
-          }
-        }
-
-      } else {
-        oPos.push(markPos);
-        if (oPos.length > 2) {
-          const win = isWinner(oPos);
-          if (oPos.length > 2 && win) {
-            alert('O you are WINNER!')
-            location.reload();
-          }
-        }
-      }
-      xStep = !xStep;
     }
   </script>
 </body>
