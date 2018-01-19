@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>XO</title>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .field {
+      width: 600px;
+      height: 600px;
+      margin: 0 auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateY(-50%) translateX(-50%);
+      border: 1px solid black;
+      font-size: 0;
+    }
+
+    .field-item {
+      position: relative;
+      width: 33%;
+      height: 33%;
+      display: inline-block;
+      border: 1px solid black;
+      font-size: 48px;
+    }
+
+    .mark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="field">
+    <div class="field-item" id="0_0">
+      <span class="mark"></span>
+    </div>
+    <div class="field-item" id="0_1">
+      <span class="mark"></span>
+    </div>
+    <div class="field-item" id="0_2">
+      <span class="mark"></span>
+    </div>
+    <div class="field-item" id="1_0">
+      <span class="mark"></span>
+    </div>
+    <div class="field-item" id="1_1">
+      <span class="mark"></span>
+    </div>
+    <div class="field-item" id="1_2">
+      <span class="mark"></span>
+    </div>
+    <div class="field-item" id="2_0">
+      <span class="mark"></span>
+    </div>
+    <div class="field-item" id="2_1">
+      <span class="mark"></span>
+    </div>
+    <div class="field-item" id="2_2">
+      <span class="mark"></span>
+    </div>
+  </div>
+
+  <script>
+    let xStep = true;
+    let xPos = [];
+    let oPos = [];
+
+    const items = document.getElementsByClassName('field-item');
+
+    function isWinner(positions) {
+
+      function isColumn() {
+        let firstCol = 0;
+        let secondCol = 0;
+        let thirdCol = 0;
+
+        for (i = 0; i < positions.length; i++) {
+          switch (positions[i][1]) {
+            case '0':
+              firstCol++;
+              break;
+            case '1':
+              secondCol++;
+              break;
+            case '2':
+              thirdCol++;
+              break;
+          }
+        }
+        return (firstCol === 3) || (secondCol === 3) || (thirdCol === 3)
+      }
+
+      function isRow() {
+        let firstRow = 0;
+        let secondRow = 0;
+        let thirdRow = 0;
+
+        for (i = 0; i < positions.length; i++) {
+          switch (positions[i][0]) {
+            case '0':
+              firstRow++;
+              break;
+            case '1':
+              secondRow++;
+              break;
+            case '2':
+              thirdRow++;
+              break;
+          }
+        }
+        return (firstRow === 3) || (secondRow === 3) || (thirdRow === 3)
+      }
+
+      function isDiagonal() {
+        let counter = 0;
+        for (i = 0; i < positions.length; i++) {
+          if (positions[i][0] === positions[i][1]) {
+            counter++;
+          }
+        }
+        return counter === 3;
+      }
+
+      function isReverseDiagonal() {
+        let counter = 0
+        for (i = 0; i < positions.length; i++) {
+          if ((positions[i][0] === '1' && positions[i][1] === '1') || (Math.abs(+positions[i][0] - +positions[i][1]) ===
+              2)) {
+            counter++;
+          }
+        }
+        return counter === 3;
+      }
+      return isColumn() || isRow() || isDiagonal() || isReverseDiagonal();
+    }
+
+    for (let i = 0; i < items.length; i++) {
+      items[i].addEventListener('click', step, {
+        once: true
+      });
+    }
+
+    function step() {
+      this.children[0].innerHTML = xStep ? 'X' : 'O';
+
+      const markPos = this.id.split('_');
+
+      if (xStep) {
+        xPos.push(markPos);
+        if (xPos.length > 2) {
+          const win = isWinner(xPos);
+          if (xPos.length > 2 && win) {
+            alert('X you are WINNER!');
+            location.reload();
+          }
+        }
+
+      } else {
+        oPos.push(markPos);
+        if (oPos.length > 2) {
+          const win = isWinner(oPos);
+          if (oPos.length > 2 && win) {
+            alert('O you are WINNER!')
+            location.reload();
+          }
+        }
+      }
+      xStep = !xStep;
+    }
+  </script>
+</body>
+
+</html>
