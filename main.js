@@ -3,6 +3,7 @@ let xPos = [];
 let oPos = [];
 
 const items = document.getElementsByClassName("field-item");
+const line = document.getElementsByClassName("line");
 
 function step() {
   this.children[0].innerHTML = xStep ? "X" : "O";
@@ -14,19 +15,26 @@ function step() {
   const currentPos = xStep ? xPos : oPos;
 
   currentPos.push(markPos);
-  if (currentPos.length > 2) {
-    const win = isWinner(currentPos);
-    if (win) {
-      setTimeout(function() {
-        alert(mark.toUpperCase() + " you are winner!");
-        location.reload();
-      }, 0);
+  if (xPos.length + oPos.length < 9) {
+    if (currentPos.length > 2) {
+      const win = isWinner(currentPos, line[0]);
+      if (win) {
+        setTimeout(function() {
+          alert(mark.toUpperCase() + " you are winner!");
+          location.reload();
+        }, 1000);
+      }
     }
+    xStep = !xStep;
+  } else {
+    setTimeout(function() {
+      alert("Draw");
+      location.reload();
+    }, 0);
   }
-  xStep = !xStep;
 }
 
-function isWinner(positions) {
+function isWinner(positions, lineEl) {
   function isColumn() {
     let firstCol = 0;
     let secondCol = 0;
@@ -45,6 +53,18 @@ function isWinner(positions) {
           break;
       }
     }
+
+    if (firstCol === 3) {
+      lineEl.classList.add("col1");
+      lineEl.classList.remove("invisible");
+    } else if (secondCol === 3) {
+      lineEl.classList.add("col2");
+      lineEl.classList.remove("invisible");
+    } else if (thirdCol === 3) {
+      lineEl.classList.add("col3");
+      lineEl.classList.remove("invisible");
+    }
+
     return firstCol === 3 || secondCol === 3 || thirdCol === 3;
   }
 
@@ -66,21 +86,41 @@ function isWinner(positions) {
           break;
       }
     }
+
+    if (firstRow === 3) {
+      lineEl.classList.add("row1");
+      lineEl.classList.remove("invisible");
+    } else if (secondRow === 3) {
+      lineEl.classList.add("row2");
+      lineEl.classList.remove("invisible");
+    } else if (thirdRow === 3) {
+      lineEl.classList.add("row3");
+      lineEl.classList.remove("invisible");
+    }
+
     return firstRow === 3 || secondRow === 3 || thirdRow === 3;
   }
 
   function isDiagonal() {
     let counter = 0;
+
     for (i = 0; i < positions.length; i++) {
       if (positions[i][0] === positions[i][1]) {
         counter++;
       }
     }
+
+    if (counter === 3) {
+      lineEl.classList.add("diag1");
+      lineEl.classList.remove("invisible");
+    }
+
     return counter === 3;
   }
 
   function isReverseDiagonal() {
     let counter = 0;
+
     for (i = 0; i < positions.length; i++) {
       if (
         (positions[i][0] === "1" && positions[i][1] === "1") ||
@@ -89,8 +129,15 @@ function isWinner(positions) {
         counter++;
       }
     }
+
+    if (counter === 3) {
+      lineEl.classList.add("diag2");
+      lineEl.classList.remove("invisible");
+    }
+
     return counter === 3;
   }
+
   return isColumn() || isRow() || isDiagonal() || isReverseDiagonal();
 }
 

@@ -27,6 +27,11 @@
       font-size: 0;
     }
 
+    .field-inner {
+      position: relative;
+      height: 100%;
+    }
+
     .field-item {
       position: relative;
       width: 33%;
@@ -42,38 +47,106 @@
       left: 50%;
       transform: translateX(-50%) translateY(-50%);
     }
+
+    .line {
+      position: absolute;
+      width: 90%;
+      height: 4px;
+      background: red;
+      transition: width .5s linear;
+    }
+
+    .invisible {
+      width: 0;
+    }
+
+    .row1 {
+      top: 17%;
+      left: 5%;
+    }
+
+    .row2 {
+      top: 50%;
+      left: 5%;
+    }
+
+    .row3 {
+      top: 83%;
+      left: 5%;
+    }
+
+    .col1 {
+      top: 5%;
+      left: 17%;
+      transform-origin: 0%;
+      transform: rotate(90deg);
+    }
+
+    .col2 {
+      top: 5%;
+      left: 50%;
+      transform-origin: 0%;
+      transform: rotate(90deg);
+    }
+
+    .col3 {
+      top: 5%;
+      left: 83%;
+      transform-origin: 0%;
+      transform: rotate(90deg);
+    }
+
+    .diag1 {
+      width: 100%;
+      top: 17%;
+      left: 17%;
+      transform-origin: 0%;
+      transform: rotate(45deg);
+    }
+
+    .diag2 {
+      width: 100%;
+      top: 17%;
+      left: 83%;
+      transform-origin: 0%;
+      transform: rotate(135deg);
+    }
   </style>
 </head>
 
 <body>
   <div class="field">
-    <div class="field-item" id="0_0">
-      <span class="mark"></span>
+    <div class="field-inner">
+      <div class="field-item" id="0_0">
+        <span class="mark"></span>
+      </div>
+      <div class="field-item" id="0_1">
+        <span class="mark"></span>
+      </div>
+      <div class="field-item" id="0_2">
+        <span class="mark"></span>
+      </div>
+      <div class="field-item" id="1_0">
+        <span class="mark"></span>
+      </div>
+      <div class="field-item" id="1_1">
+        <span class="mark"></span>
+      </div>
+      <div class="field-item" id="1_2">
+        <span class="mark"></span>
+      </div>
+      <div class="field-item" id="2_0">
+        <span class="mark"></span>
+      </div>
+      <div class="field-item" id="2_1">
+        <span class="mark"></span>
+      </div>
+      <div class="field-item" id="2_2">
+        <span class="mark"></span>
+      </div>
+      <div class="line invisible"></div>
     </div>
-    <div class="field-item" id="0_1">
-      <span class="mark"></span>
-    </div>
-    <div class="field-item" id="0_2">
-      <span class="mark"></span>
-    </div>
-    <div class="field-item" id="1_0">
-      <span class="mark"></span>
-    </div>
-    <div class="field-item" id="1_1">
-      <span class="mark"></span>
-    </div>
-    <div class="field-item" id="1_2">
-      <span class="mark"></span>
-    </div>
-    <div class="field-item" id="2_0">
-      <span class="mark"></span>
-    </div>
-    <div class="field-item" id="2_1">
-      <span class="mark"></span>
-    </div>
-    <div class="field-item" id="2_2">
-      <span class="mark"></span>
-    </div>
+
   </div>
 
   <script src="main.js"></script>
